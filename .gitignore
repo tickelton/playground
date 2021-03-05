@@ -10,3 +10,9 @@ Session.vim
 build
 Pipfile.lock
 tags
+
+*.o
+*.bin
+*.iso
+yaho/toolchain
+yaho/src/isodir
