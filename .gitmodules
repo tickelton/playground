@@ -1,0 +1,3 @@
+[submodule "boop/lib/googletest"]
+	path = boop/lib/googletest
+	url = https://github.com/google/googletest/
