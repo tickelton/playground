@@ -13,13 +13,32 @@ SOURCES_S = ${CUBE_PATH}/Drivers/CMSIS/Device/ST/STM32F3xx/Source/Templates/gcc/
 
 SOURCES_C = src/main.c
 
+SOURCES_C += src/stm32f3xx_hal_msp.c
+SOURCES_C += src/stm32f3xx_it.c
+SOURCES_C += src/syscalls.c
+SOURCES_C += src/sysmem.c
+#SOURCES_C += src/system_stm32f3xx.c
+
 #SOURCES_C += sys/stubs.c sys/_sbrk.c
 SOURCES_C += ${CUBE_PATH}/Drivers/CMSIS/Device/ST/STM32F3xx/Source/Templates/system_stm32f3xx.c
 SOURCES_C += ${CUBE_PATH}/Drivers/BSP/STM32F3xx_Nucleo_144/stm32f3xx_nucleo_144.c
-SOURCES_C += ${CUBE_PATH}/Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c
 SOURCES_C += ${CUBE_PATH}/Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal.c
-SOURCES_C += ${CUBE_PATH}/Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_rcc.c
 SOURCES_C += ${CUBE_PATH}/Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_cortex.c
+SOURCES_C += ${CUBE_PATH}/Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c
+SOURCES_C += ${CUBE_PATH}/Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_exti.c
+SOURCES_C += ${CUBE_PATH}/Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_flash.c
+SOURCES_C += ${CUBE_PATH}/Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_flash_ex.c
+SOURCES_C += ${CUBE_PATH}/Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c
+SOURCES_C += ${CUBE_PATH}/Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c.c
+SOURCES_C += ${CUBE_PATH}/Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.c
+SOURCES_C += ${CUBE_PATH}/Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pwr.c
+SOURCES_C += ${CUBE_PATH}/Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pwr_ex.c
+SOURCES_C += ${CUBE_PATH}/Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_rcc.c
+SOURCES_C += ${CUBE_PATH}/Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_rcc_ex.c
+SOURCES_C += ${CUBE_PATH}/Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim.c
+SOURCES_C += ${CUBE_PATH}/Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim_ex.c
+SOURCES_C += ${CUBE_PATH}/Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart.c
+SOURCES_C += ${CUBE_PATH}/Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c
 
 SOURCES_CPP =
 
@@ -37,7 +56,8 @@ INCLUDES += -I ${CUBE_PATH}/Drivers/BSP/STM32F3xx_Nucleo_144
 INCLUDES += -I ${CUBE_PATH}/Drivers/BSP/STM32F3xx-Nucleo
 
 #DEFINES = -DSTM32 -DSTM32F3 -DSTM32F302xx
-DEFINES = -DSTM32 -DSTM32F3 -DSTM32F302x8
+#DEFINES = -DUSE_HAL_DRIVER -DSTM32 -DSTM32F3 -DSTM32F302x8
+DEFINES = -DUSE_HAL_DRIVER -DSTM32F302x8
 
 ################
 # Compiler/Assembler/Linker/etc
@@ -82,7 +102,8 @@ LDFLAGS = -static $(MCUFLAGS)
 LDFLAGS += -Wl,--start-group -lgcc -lm -lc -lg -lstdc++ -lsupc++ -Wl,--end-group
 LDFLAGS += -Wl,--gc-sections -Wl,--print-gc-sections -Wl,--cref,-Map=$(@:%.elf=%.map)
 LDFLAGS += -Wl,--print-memory-usage
-LDFLAGS += -L ${CUBE_PATH}/Projects/STM32F302R8-Nucleo/Templates/SW4STM32/STM32F302R8-Nucleo/ -T STM32F302R8Tx_FLASH.ld
+#LDFLAGS += -L ${CUBE_PATH}/Projects/STM32F302R8-Nucleo/Templates/SW4STM32/STM32F302R8-Nucleo/ -T STM32F302R8Tx_FLASH.ld
+LDFLAGS += -L ${CUBE_PATH}/Projects/STM32F302R8-Nucleo/Applications/FreeRTOS/FreeRTOS_ThreadCreation/SW4STM32/STM32F302R8-Nucleo/ -T STM32F302R8Tx_FLASH.ld
 
 ################
 # phony rules
