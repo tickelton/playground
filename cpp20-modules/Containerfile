@@ -1,0 +1,39 @@
+FROM ubuntu:22.04
+
+ARG CMAKE_URL="https://github.com/Kitware/CMake/releases/download/v3.28.0-rc3/cmake-3.28.0-rc3-linux-x86_64.sh"
+ARG CLANG_VERSION=17
+ARG NINJA_URL="https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-linux.zip"
+
+RUN apt-get update \
+    && apt-get upgrade -y \
+    && apt-get install -y xz-utils lsb-release wget software-properties-common gnupg unzip \
+    # Install CMake \
+    && mkdir -p /opt/cmake \
+    && wget -q -O /tmp/cmake.sh $CMAKE_URL \
+    && sh /tmp/cmake.sh --prefix=/opt/cmake --skip-license \
+    && ln -s /opt/cmake/bin/* /usr/bin/ \
+    && rm /tmp/cmake.sh \
+    # Install Clang \
+    && wget -q -O /tmp/llvm.sh https://apt.llvm.org/llvm.sh \
+    # Disable interactive prompt when adding repo \
+    && sed -i "s/^add-apt-repository/add-apt-repository -y/" /tmp/llvm.sh \
+    && bash /tmp/llvm.sh $CLANG_VERSION all \
+    && ln -s /usr/bin/clang-scan-deps-${CLANG_VERSION} /usr/bin/clang-scan-deps \
+    && rm /tmp/llvm.sh \
+    && rm -rf /var/lib/apt/lists/* \
+    # Install Ninja \
+    && wget -q -O /tmp/ninja-linux.zip $NINJA_URL \
+    && cd /tmp \
+    && unzip /tmp/ninja-linux.zip \
+    && mv /tmp/ninja /usr/bin/
+
+CMD ["/bin/bash"]
+
+# Compile with:
+# $ podman run --rm \
+#     -w /app --mount type=bind,src="$(pwd)",target=/app \
+#     cxx20modules \
+#     sh -c "mkdir build \
+#            && cd build \
+#            && CXX=clang++-17 CC=clang cmake -GNinja .. \
+#            &&  ninja -v"
