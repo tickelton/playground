@@ -52,7 +52,7 @@ AquaVitae is not, and when you compare it with AruTaVae in your spell journal, y
 #include <string>
 using namespace std;
 
-class Spell { 
+class Spell {
     private:
         string scrollName;
     public:
@@ -64,7 +64,7 @@ class Spell {
         }
 };
 
-class Fireball : public Spell { 
+class Fireball : public Spell {
     private: int power;
     public:
         Fireball(int power): power(power) { }
@@ -82,7 +82,7 @@ class Frostbite : public Spell {
         }
 };
 
-class Thunderstorm : public Spell { 
+class Thunderstorm : public Spell {
     private: int power;
     public:
         Thunderstorm(int power): power(power) { }
@@ -91,7 +91,7 @@ class Thunderstorm : public Spell {
         }
 };
 
-class Waterbolt : public Spell { 
+class Waterbolt : public Spell {
     private: int power;
     public:
         Waterbolt(int power): power(power) { }
@@ -106,7 +106,7 @@ class SpellJournal {
         static string read() {
             return journal;
         }
-}; 
+};
 string SpellJournal::journal = "";
 
 void counterspell(Spell *spell) {
@@ -126,7 +126,7 @@ void counterspell(Spell *spell) {
         // Initializing a matrix of size
         // (m+1)*(n+1)
         int L[m + 1][n + 1];
-    
+
         // Following steps build L[m+1][n+1]
         // in bottom up fashion. Note that
         // L[i][j] contains length of LCS of
@@ -135,15 +135,15 @@ void counterspell(Spell *spell) {
             for (int j = 0; j <= n; j++) {
                 if (i == 0 || j == 0)
                     L[i][j] = 0;
-    
+
                 else if (X[i - 1] == Y[j - 1])
                     L[i][j] = L[i - 1][j - 1] + 1;
-    
+
                 else
                     L[i][j] = max(L[i - 1][j], L[i][j - 1]);
             }
         }
-    
+
         // L[m][n] contains length of LCS
         // for X[0..n-1] and Y[0..m-1]
         cout << L[m][n] << "\n";
@@ -169,7 +169,7 @@ class Wizard {
             }
             else if(s == "thunder") {
                 spell = new Thunderstorm(power);
-            } 
+            }
             else {
                 spell = new Spell(s);
                 cin >> SpellJournal::journal;
