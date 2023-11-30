@@ -34,7 +34,7 @@ Explanation: There is no way to divide the corridor because there will always be
 ## Constraints:
 
     n == corridor.length
-    1 <= n <= 105
+    1 <= n <= 10^5
     corridor[i] is either 'S' or 'P'.
 
 */
