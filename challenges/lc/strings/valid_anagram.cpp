@@ -28,6 +28,7 @@ Output: false
 
 class Solution {
 public:
+/*
     bool isAnagram(string s, string t) {
         if (s.size() != t.size()) {
             return false;
@@ -37,5 +38,22 @@ public:
         sort(t.begin(), t.end());
 
         return s == t;
+    }
+*/
+
+    bool isAnagram(string s, string t) {
+        if (s.size() != t.size()) {
+            return false;
+        }
+
+        array<int, 26> sa = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+        array<int, 26> ta = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+
+        for (int i=0;i<s.size(); ++i) {
+            ++sa[s[i]-'a'];
+            ++ta[t[i]-'a'];
+        }
+
+        return sa == ta;
     }
 };
