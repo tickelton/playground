@@ -40,6 +40,7 @@ Output: 12
 class Solution {
 public:
     // recursion + memoziation
+    /*
     vector<vector<int>> dp;
 
     int minPathSumFrom(int row, int col, vector<vector<int>>& grid) {
@@ -76,5 +77,30 @@ public:
     int minPathSum(vector<vector<int>>& grid) {
         dp = vector(201, vector(201, 0));
         return minPathSumFrom(0, 0, grid);
+    }
+    */
+
+    // iterative tabulation
+    int minPathSum(vector<vector<int>>& grid) {
+        vector<vector<int>> dp(200, vector(200, 0));
+
+        for (int row = grid.size()-1; row >= 0; --row) {
+            for (int col = grid[0].size()-1; col >= 0; --col) {
+                if (row == grid.size()-1 && col == grid[0].size() -1) {
+                    dp[row][col] = grid[row][col];
+                } else if (row == grid.size()-1) {
+                    dp[row][col] = grid[row][col] + dp[row][col+1];
+                } else if (col == grid[0].size()-1) {
+                    dp[row][col] = grid[row][col] + dp[row+1][col];
+                } else {
+                    dp[row][col] = grid[row][col] + min(
+                        dp[row+1][col],
+                        dp[row][col+1]
+                    );
+                }
+            }
+        }
+
+        return dp[0][0];
     }
 };
