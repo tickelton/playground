@@ -1,0 +1,4 @@
+https://github.com/TeamRocketIst/ctf-usb-keyboard-parser/blob/master/usbkeyboard.py
+
+# tshark -r ./usb.pcap -Y 'usbhid.data' -T fields -e usbhid.data | sed 's/../:&/g2' > cap.txt
+# python3 usbkeyboard.py cap.txt
